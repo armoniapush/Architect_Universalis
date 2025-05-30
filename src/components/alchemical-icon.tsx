@@ -1,3 +1,4 @@
+
 import type { SVGProps } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -58,7 +59,32 @@ export const AlchemicalIcon = ({ symbol, size = 24, className, ...props }: Alche
           <line x1="6" y1="10" x2="18" y2="10" />
         </svg>
       );
-    default: // Fallback to a generic symbol or null
+    case 'spirit':
+      return (
+        <svg {...iconProps} aria-label="Spirit Symbol">
+          <circle cx="12" cy="12" r="7" />
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <line x1="7.1" y1="7.1" x2="16.9" y2="16.9" />
+          <line x1="7.1" y1="16.9" x2="16.9" y2="7.1" />
+        </svg>
+      );
+    case 'salt':
+      return (
+        <svg {...iconProps} aria-label="Salt Symbol">
+          <circle cx="12" cy="12" r="7" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      );
+    case 'sulfur':
+      return (
+        <svg {...iconProps} aria-label="Sulfur Symbol">
+          <path d="M12 4 L7 12 H17 Z" /> {/* Triangle */}
+          <line x1="12" y1="12" x2="12" y2="20" /> {/* Vertical line of cross */}
+          <line x1="9" y1="16" x2="15" y2="16" /> {/* Horizontal line of cross */}
+        </svg>
+      );
+    default:
       return (
         <svg {...iconProps} aria-label="Generic Alchemical Symbol">
           <circle cx="12" cy="12" r="8" />

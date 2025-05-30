@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -40,8 +41,6 @@ export function NationGenerator() {
 
   useEffect(() => {
     if (nationData) {
-      // Trigger animation by setting displayNation after a short delay or when data is ready
-      // This allows CSS transitions on initial appearance
       const timer = setTimeout(() => setDisplayNation(nationData), 100);
       return () => clearTimeout(timer);
     } else {
@@ -52,7 +51,7 @@ export function NationGenerator() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsLoadingDetails(true);
     setError(null);
-    setNationData(null); // Clear previous data for animation
+    setNationData(null); 
 
     try {
       toast({
@@ -62,7 +61,7 @@ export function NationGenerator() {
       const details = await generateNationDetails({ prompt: data.prompt });
       
       let currentNationData: NationData = { ...details };
-      setNationData(currentNationData); // Set details first
+      setNationData(currentNationData);
       setIsLoadingDetails(false);
 
       if (details.visualAesthetic) {
@@ -71,12 +70,18 @@ export function NationGenerator() {
           title: "Consulting the Symbolists...",
           description: "Crafting a unique emblem for your nation.",
         });
-        const symbolPrompt = `A flag or banner in a fantasy art style, suitable for a mystical codex. It represents the nation of ${details.name}. The nation's culture is ${details.culture}, with a ${details.politicalSystem} political system, and a strong ${details.visualAesthetic} visual aesthetic. The flag should prominently feature elements reflecting these aspects. Avoid text.`;
+        const symbolPrompt = `A flag or banner in a fantasy art style, suitable for a mystical codex. It represents the nation of ${details.name}.
+The nation's culture is ${details.culture}.
+Its political system is ${details.politicalSystem}.
+Its visual aesthetic is ${details.visualAesthetic}.
+Key aspects of its economy are ${details.economy}.
+Its founding mythology revolves around ${details.foundingMythology}.
+The flag should prominently feature elements reflecting these aspects. Avoid text.`;
         
         try {
             const symbolResult = await generateNationSymbol({ prompt: symbolPrompt });
             currentNationData = { ...currentNationData, symbolUrl: symbolResult.symbolDataUri };
-            setNationData(currentNationData); // Update with symbol
+            setNationData(currentNationData);
             toast({
               title: "Emblem Forged!",
               description: "Your nation's symbol has been successfully generated.",
@@ -115,15 +120,19 @@ export function NationGenerator() {
     }
   };
 
-  const renderDetailItem = (icon: AlchemicalSymbol, label: string, value: string | undefined) => (
-    <div className="flex items-start space-x-3 p-3 bg-background/30 rounded-md hover:bg-background/50 transition-colors duration-300">
-      <AlchemicalIcon symbol={icon} size={28} className="text-accent mt-1 flex-shrink-0" />
-      <div>
-        <h3 className="text-sm font-semibold text-primary/90">{label}</h3>
-        <p className="text-card-foreground/80 text-sm">{value || 'Not specified'}</p>
+  const renderDetailItem = (icon: AlchemicalSymbol, label: string, value: string | undefined | null) => {
+    if (!value) return null; // Don't render if value is undefined or null
+    return (
+      <div className="flex items-start space-x-3 p-3 bg-background/30 rounded-md hover:bg-background/50 transition-colors duration-300">
+        <AlchemicalIcon symbol={icon} size={28} className="text-accent mt-1 flex-shrink-0" />
+        <div>
+          <h3 className="text-sm font-semibold text-primary/90">{label}</h3>
+          <p className="text-card-foreground/80 text-sm">{value}</p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
+  
 
   const isLoading = isLoadingDetails || isLoadingSymbol;
 
@@ -189,11 +198,15 @@ export function NationGenerator() {
             )}
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {renderDetailItem('air', 'Culture', displayNation.culture)}
-              {renderDetailItem('water', 'Political System', displayNation.politicalSystem)}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              {renderDetailItem('spirit', 'Culture', displayNation.culture)}
+              {renderDetailItem('earth', 'Political System', displayNation.politicalSystem)}
+              {renderDetailItem('fire', 'Visual Aesthetic', displayNation.visualAesthetic)}
+              {renderDetailItem('mercury', 'Economy', displayNation.economy)}
+              {renderDetailItem('air', 'Languages', displayNation.languages?.join(', '))}
+              {renderDetailItem('salt', 'History', displayNation.historySummary)}
             </div>
-            {renderDetailItem('fire', 'Visual Aesthetic', displayNation.visualAesthetic)}
+            {renderDetailItem('sulfur', 'Founding Mythology', displayNation.foundingMythology)}
 
             {displayNation.symbolUrl && (
               <div className="mt-6 pt-6 border-t border-border/50">
