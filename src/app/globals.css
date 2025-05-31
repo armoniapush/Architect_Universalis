@@ -74,3 +74,18 @@
     box-shadow: 0 0 15px -3px var(--card-glow-color), 0 0 8px -2px var(--card-glow-color) inset;
   }
 }
+
+.starry-sky::before {
+  content: "";
+  position: fixed; /* Fixed to cover viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10; /* Behind all page content */
+  background-image: radial-gradient(hsl(var(--accent) / 0.07) 0.5px, transparent 0.5px),
+                    radial-gradient(hsl(var(--accent) / 0.07) 0.5px, transparent 0.5px);
+  background-size: 40px 40px, 70px 70px; /* Adjusted sizes */
+  background-position: 0 0, 20px 20px; /* Adjusted positions */
+  animation: star-shimmer 10s ease-in-out infinite alternate; /* Slower shimmer */
+}

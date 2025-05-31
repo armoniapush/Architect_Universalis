@@ -2,9 +2,9 @@ import { NationGenerator } from '@/components/nation-generator';
 
 export default function Home() {
   return (
-    <div className="min-h-screen p-4 md:p-8 flex flex-col items-center selection:bg-accent/30 selection:text-background">
+    <div className="min-h-screen p-4 md:p-8 flex flex-col items-center selection:bg-accent/30 selection:text-background relative">
       <header className="w-full max-w-4xl mb-8 md:mb-12 text-center">
-        <h1 className="text-6xl md:text-8xl font-headline font-semibold text-accent uppercase tracking-wider">
+        <h1 className="text-6xl md:text-8xl font-headline font-semibold text-accent uppercase tracking-wider animate-title-pulse">
           Architect Universalis
         </h1>
         <p className="text-xl md:text-2xl text-foreground/80 mt-3 font-headline font-light">

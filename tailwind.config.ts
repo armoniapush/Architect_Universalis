@@ -96,13 +96,23 @@ export default {
          'subtle-glow': { 
           '0%, 100%': { filter: 'drop-shadow(0 0 5px hsl(var(--accent)/0.3))' },
           '50%': { filter: 'drop-shadow(0 0 10px hsl(var(--accent)/0.5))' },
+        },
+        'title-pulse': {
+          '0%, 100%': { textShadow: '0 0 7px hsl(var(--accent)), 0 0 12px hsl(var(--accent) / 0.8), 0 0 17px hsl(var(--accent) / 0.6)' },
+          '50%': { textShadow: '0 0 12px hsl(var(--accent)), 0 0 22px hsl(var(--accent) / 0.8), 0 0 32px hsl(var(--accent) / 0.6)' },
+        },
+        'star-shimmer': {
+          '0%, 100%': { opacity: '0.3' },
+          '50%': { opacity: '0.7' },
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in': 'fade-in 0.5s ease-out forwards',
-        'subtle-glow': 'subtle-glow 3s ease-in-out infinite alternate'
+        'subtle-glow': 'subtle-glow 3s ease-in-out infinite alternate',
+        'title-pulse': 'title-pulse 2.5s ease-in-out infinite alternate',
+        'star-shimmer': 'star-shimmer 10s ease-in-out infinite alternate',
       },
     },
   },
