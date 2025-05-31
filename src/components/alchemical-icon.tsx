@@ -19,18 +19,18 @@ export const AlchemicalIcon = ({ symbol, size = 24, className, ...props }: Alche
     height: size,
     viewBox: "0 0 24 24",
     fill: "none",
-    stroke: "currentColor", // Color will be determined by text-color (e.g., text-accent, text-primary)
-    strokeWidth: "1.5",
+    stroke: "currentColor", // Color will be inherited via text-accent
+    strokeWidth: "1.2", // Thinner lines for the new aesthetic
     strokeLinecap: "round" as "round",
     strokeLinejoin: "round" as "round",
-    className: cn("icon-glow-turquoise", className), // Apply glow, allow color override via className
+    className: cn("transition-colors", className), // Glow removed, handled by parent
     ...props,
   };
 
   // Default class sets base color to accent (turquoise), can be overridden by `className` prop
   const defaultColoredIconProps = {
     ...iconProps,
-    className: cn("text-accent icon-glow-turquoise", className),
+    // className: cn("text-accent", className), // Color is set by parent now
   };
 
 

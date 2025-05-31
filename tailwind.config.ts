@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['EB Garamond', 'serif'],
-        headline: ['Cinzel Decorative', 'serif'], // Changed to Cinzel Decorative
+        headline: ['Rajdhani', 'sans-serif'], // Changed to Rajdhani
         code: ['monospace', 'monospace'],
       },
       colors: {
@@ -55,6 +55,7 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        // Sidebar colors remain for potential future use, but are not central to this design
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
@@ -92,16 +93,16 @@ export default {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        'subtle-glow': { /* Updated to use --accent (Turquoise) */
-          '0%, 100%': { filter: 'drop-shadow(0 0 3px hsl(var(--accent)/0.4))' },
-          '50%': { filter: 'drop-shadow(0 0 6px hsl(var(--accent)/0.6))' },
+         'subtle-glow': { 
+          '0%, 100%': { filter: 'drop-shadow(0 0 5px hsl(var(--accent)/0.3))' },
+          '50%': { filter: 'drop-shadow(0 0 10px hsl(var(--accent)/0.5))' },
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in': 'fade-in 0.5s ease-out forwards',
-        'subtle-glow': 'subtle-glow 2.5s ease-in-out infinite alternate'
+        'subtle-glow': 'subtle-glow 3s ease-in-out infinite alternate'
       },
     },
   },

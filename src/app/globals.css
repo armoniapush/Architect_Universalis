@@ -4,50 +4,46 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%; /* Graphite Black #0a0a0a */
-    --foreground: 0 0% 98%; /* Near White */
+    --background: 0 0% 2%; /* Near Black #050505 */
+    --foreground: 0 0% 95%; /* Light Gray / Off-White */
 
-    --card: 232 22% 15%; /* Lead Gray #1e1e2f */
-    --card-foreground: 0 0% 90%; /* Light Gray for text on cards */
+    --card: 0 0% 7%; /* Dark Gray #121212 */
+    --card-foreground: 174 70% 80%; /* Light Turquoise for text on cards */
 
-    --popover: 232 22% 12%; /* Slightly darker Lead Gray for popovers */
-    --popover-foreground: 0 0% 90%; /* Light Gray for text on popovers */
+    --popover: 0 0% 5%; /* Slightly darker than card for popovers */
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 275 100% 25%; /* Deep Indigo #4b0082 */
-    --primary-foreground: 0 0% 98%; /* Near White for text on Indigo */
+    --primary: 174 72% 50%; /* Mystic Turquoise #40e0d0 - Main interactive color */
+    --primary-foreground: 0 0% 5%; /* Dark text for on-turquoise elements */
 
-    --secondary: 232 22% 20%; /* Slightly lighter Lead Gray for secondary elements */
-    --secondary-foreground: 0 0% 98%; /* Near White for text on secondary */
+    --secondary: 0 0% 12%; /* Another dark gray for secondary elements */
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 232 22% 10%; /* Darker Lead Gray for muted backgrounds */
-    --muted-foreground: 232 15% 65%; /* Grayish text for muted foreground */
+    --muted: 0 0% 10%; /* Darker gray for muted backgrounds */
+    --muted-foreground: 0 0% 60%; /* Grayish text for muted foreground */
 
-    --accent: 174 72% 56%; /* Mystic Turquoise #40e0d0 */
-    --accent-foreground: 174 100% 10%; /* Very Dark Turquoise/Black for text on Turquoise */
+    --accent: 174 72% 50%; /* Mystic Turquoise #40e0d0 */
+    --accent-foreground: 0 0% 5%; /* Dark text for on-turquoise elements */
 
-    --destructive: 0 72% 51%; /* Adjusted for dark theme visibility */
+    --destructive: 0 60% 50%; /* Adjusted red for dark theme */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 232 22% 25%; /* Slightly Lighter Lead Gray for borders */
-    --input: 232 22% 15%; /* Lead Gray #1e1e2f for inputs */
+    --border: 174 72% 25%; /* Darker Turquoise for subtle borders or inactive states */
+    --input: 0 0% 10%; /* Dark gray for inputs, similar to muted */
     --ring: 174 72% 56%; /* Mystic Turquoise for focus rings */
 
     --radius: 0.5rem;
 
-    --chart-1: 174 72% 50%; /* Adjusted chart colors to fit new theme */
-    --chart-2: 275 100% 30%;
-    --chart-3: 174 50% 40%;
-    --chart-4: 275 70% 35%;
-    --chart-5: 174 60% 45%;
+    --chart-1: 174 70% 50%;
+    --chart-2: 174 80% 60%;
+    --chart-3: 174 60% 40%;
+    --chart-4: 174 90% 70%;
+    --chart-5: 174 50% 30%;
 
-    --sidebar-background: 0 0% 3%; /* Darker than main bg */
-    --sidebar-foreground: 0 0% 85%;
-    --sidebar-primary: 275 100% 30%; /* Slightly lighter Indigo */
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 174 72% 50%; /* Slightly darker Turquoise */
-    --sidebar-accent-foreground: 174 100% 10%;
-    --sidebar-border: 232 22% 20%;
-    --sidebar-ring: 174 72% 56%;
+    /* Specific for new UI style */
+    --btn-glow-color: hsl(var(--accent) / 0.4);
+    --card-glow-color: hsl(var(--accent) / 0.3);
+    --card-border-color: hsl(var(--accent) / 0.2);
   }
 }
 
@@ -59,12 +55,22 @@
     @apply bg-background text-foreground font-body;
   }
 
-  /* Custom styles for the new theme */
-  .text-shadow-accent {
-    text-shadow: 0px 0px 8px hsl(var(--accent) / 0.7); /* Turquoise shadow */
+  .text-glow-accent {
+    text-shadow: 0 0 8px hsl(var(--accent) / 0.7);
   }
 
-  .icon-glow-turquoise {
-    filter: drop-shadow(0 0 4px hsl(var(--accent) / 0.6)) drop-shadow(0 0 8px hsl(var(--accent) / 0.3));
+  .ui-element-glow {
+    box-shadow: 0 0 10px -2px var(--btn-glow-color), 0 0 4px -1px var(--btn-glow-color) inset;
+    border-color: hsl(var(--accent) / 0.5);
+  }
+  
+  .ui-card-glow {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .ui-card-glow:hover,
+  .ui-card-glow:focus-within {
+    border-color: hsl(var(--accent) / 0.6);
+    box-shadow: 0 0 15px -3px var(--card-glow-color), 0 0 8px -2px var(--card-glow-color) inset;
   }
 }

@@ -9,7 +9,7 @@ interface LoaderProps {
 
 export const Loader = ({ className, size = "1.5rem", text }: LoaderProps) => {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 text-primary" role="status" aria-live="polite">
+    <div className="flex flex-col items-center justify-center gap-2 text-accent" role="status" aria-live="polite">
       <Loader2
         className={cn('animate-spin', className)}
         style={{ width: size, height: size }}
