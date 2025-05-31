@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
-  prompt: z.string().min(10, { message: "Please describe your nation in at least 10 characters." }).max(500, { message: "Prompt must be 500 characters or less." }),
+  prompt: z.string().min(10, { message: "Por favor, describe tu nación en al menos 10 caracteres." }).max(500, { message: "El prompt debe tener 500 caracteres o menos." }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -43,7 +43,7 @@ const DetailItem: React.FC<DetailItemProps> = ({ icon, label, value, isList, ite
         <AlchemicalIcon symbol={icon} size={24} className={cn("text-accent/80 mt-1 flex-shrink-0", iconClassName)} />
         <div>
           <h3 className="text-sm font-semibold text-accent/90">{label}</h3>
-          <p className="text-card-foreground/60 text-sm italic">Not specified</p>
+          <p className="text-card-foreground/60 text-sm italic">No especificado</p>
         </div>
       </div>
     );
@@ -140,11 +140,11 @@ export function NationGenerator() {
           duration: 5000,
         });
         
-        const symbolPrompt = `A flag or banner in a clean, symbolic, vector art style suitable for a futuristic or mystical interface. It represents the nation of ${details.name}.
-Overall Visual Aesthetic: ${details.visualAestheticOverall}.
-Dominant Colors: Dark grays, blacks, with vibrant turquoise accents.
-Key Symbols/Motifs from Art: ${details.artAndAesthetics.visualSymbolsAndMotifs.join(', ')}.
-The flag should prominently feature elements reflecting these aspects. Avoid text. Ensure it is visually striking and thematically consistent. Minimalist design.`;
+        const symbolPrompt = `Un estandarte o bandera en un estilo de arte vectorial limpio, simbólico, adecuado para una interfaz futurista o mística. Representa a la nación de ${details.name}.
+Estética Visual General: ${details.visualAestheticOverall}.
+Colores Dominantes: Grises oscuros, negros, con acentos turquesa vibrantes.
+Símbolos/Motivos Clave del Arte: ${details.artAndAesthetics.visualSymbolsAndMotifs.join(', ')}.
+La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. Asegurar que sea visualmente impactante y temáticamente consistente. Diseño minimalista.`;
         
         try {
             const symbolResult = await generateNationSymbol({ prompt: symbolPrompt });
@@ -155,7 +155,7 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
               variant: "default",
             });
         } catch (symbolError) {
-            console.error("Symbol generation error:", symbolError);
+            console.error("Error en la generación del símbolo:", symbolError);
             toast({
               title: "Error en el Emblema",
               description: "No se pudo crear un emblema, pero los detalles de la nación están intactos.",
@@ -172,8 +172,8 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
       }
 
     } catch (e) {
-      console.error("Generation error:", e);
-      const errorMessage = e instanceof Error ? e.message : "An unknown error occurred during nation generation.";
+      console.error("Error en la generación:", e);
+      const errorMessage = e instanceof Error ? e.message : "Ocurrió un error desconocido durante la generación de la nación.";
       setError(errorMessage);
       toast({
         title: "Error en la Creación",

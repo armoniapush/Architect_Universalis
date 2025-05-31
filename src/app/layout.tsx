@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: 'Architect Universalis',
-  description: 'Generate fictional nations with AI.',
+  description: 'Genera naciones ficticias con IA.',
 };
 
 export default function RootLayout({

@@ -15,7 +15,7 @@ export default function Home() {
         <NationGenerator />
       </main>
       <footer className="w-full max-w-4xl mt-16 py-8 text-center text-sm text-muted-foreground border-t border-border/30">
-        <p>&copy; {new Date().getFullYear()} Architect Universalis. Evoked by AI, designed for dreamers.</p>
+        <p>&copy; {new Date().getFullYear()} Architect Universalis. Evocado por IA, diseñado para soñadores.</p>
       </footer>
     </div>
   );
