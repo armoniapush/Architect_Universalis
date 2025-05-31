@@ -30,16 +30,17 @@ type NationData = GenerateNationDetailsOutput & { symbolUrl?: string };
 interface DetailItemProps {
   icon: AlchemicalSymbol;
   label: string;
-  value?: string | string[] | null | ReactNode; // Allow ReactNode for complex rendering
+  value?: string | string[] | null | ReactNode; 
   isList?: boolean;
   itemClassName?: string;
+  iconClassName?: string; 
 }
 
-const DetailItem: React.FC<DetailItemProps> = ({ icon, label, value, isList, itemClassName }) => {
+const DetailItem: React.FC<DetailItemProps> = ({ icon, label, value, isList, itemClassName, iconClassName }) => {
   if (value === undefined || value === null || (Array.isArray(value) && value.length === 0) || value === "") {
     return (
        <div className={cn("flex items-start space-x-3 p-3 bg-card-foreground/5 rounded-md hover:bg-card-foreground/10 transition-colors duration-300", itemClassName)}>
-        <AlchemicalIcon symbol={icon} size={28} className="text-accent mt-1 flex-shrink-0" />
+        <AlchemicalIcon symbol={icon} size={28} className={cn("text-accent mt-1 flex-shrink-0", iconClassName)} />
         <div>
           <h3 className="text-sm font-semibold text-primary/90">{label}</h3>
           <p className="text-card-foreground/60 text-sm italic">Not specified</p>
@@ -69,7 +70,7 @@ const DetailItem: React.FC<DetailItemProps> = ({ icon, label, value, isList, ite
 
   return (
     <div className={cn("flex items-start space-x-3 p-3 bg-card-foreground/5 rounded-md hover:bg-card-foreground/10 transition-colors duration-300", itemClassName)}>
-      <AlchemicalIcon symbol={icon} size={28} className="text-accent mt-1 flex-shrink-0" />
+      <AlchemicalIcon symbol={icon} size={28} className={cn("text-accent mt-1 flex-shrink-0", iconClassName)} />
       <div>
         <h3 className="text-sm font-semibold text-primary/90">{label}</h3>
         {renderValue()}
@@ -96,8 +97,7 @@ export function NationGenerator() {
 
   useEffect(() => {
     if (nationData) {
-      const timer = setTimeout(() => setDisplayNation(nationData), 100); // Short delay for transition
-      // Automatically open the first few accordions, or specific ones.
+      const timer = setTimeout(() => setDisplayNation(nationData), 100); 
       if (nationData) {
          setActiveAccordionItems(['lore', 'geography']); 
       }
@@ -110,7 +110,7 @@ export function NationGenerator() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsLoadingDetails(true);
-    setIsLoadingSymbol(false); // Reset symbol loading state
+    setIsLoadingSymbol(false); 
     setError(null);
     setNationData(null); 
 
@@ -125,10 +125,9 @@ export function NationGenerator() {
       const details = await generateNationDetails(detailsPayload);
       
       let currentNationData: NationData = { ...details };
-      setNationData(currentNationData); // Set data to trigger displayNation update
+      setNationData(currentNationData); 
       setIsLoadingDetails(false);
-
-      // Automatically open some accordion items upon receiving data
+      
       setActiveAccordionItems(['lore', 'geography', 'government', 'economy']);
 
 
@@ -140,27 +139,24 @@ export function NationGenerator() {
           duration: 5000,
         });
         
-        // Construct a more detailed prompt for symbol generation
         const symbolPrompt = `A flag or banner in a fantasy art style, suitable for a mystical codex. It represents the nation of ${details.name}.
 Overall Visual Aesthetic: ${details.visualAestheticOverall}.
 Culture: ${details.culturesAndEthnicities.dominantCulture}.
 Core Values/Philosophy: ${details.culturesAndEthnicities.valuesAndPhilosophy}.
 Key Symbols/Motifs from Art: ${details.artAndAesthetics.visualSymbolsAndMotifs.join(', ')}.
 Founding Myth: ${details.religionAndSpirituality.foundingMyths}.
-The flag should prominently feature elements reflecting these aspects. Avoid text. Ensure it is visually striking and thematically consistent.`;
+The flag should prominently feature elements reflecting these aspects. Avoid text. Ensure it is visually striking and thematically consistent. The color palette should include deep indigo and mystic turquoise accents.`;
         
         try {
             const symbolResult = await generateNationSymbol({ prompt: symbolPrompt });
-            // Update with a new object to ensure React detects the change
             setNationData(prev => prev ? ({ ...prev, symbolUrl: symbolResult.symbolDataUri }) : null);
             toast({
               title: "Emblem Forged!",
               description: "Your nation's symbol has been successfully generated.",
-              variant: "default",
+              variant: "default", // Will use new theme colors
             });
         } catch (symbolError) {
             console.error("Symbol generation error:", symbolError);
-            // setError("Failed to generate nation symbol. The nation details are still available.");
             toast({
               title: "Symbol Generation Hiccup",
               description: "Could not create an emblem, but the realm's details are intact.",
@@ -195,19 +191,20 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
   const renderAccordionItem = (
     id: string, 
     title: string, 
-    icon: AlchemicalSymbol, 
+    iconSymbol: AlchemicalSymbol, 
     content: ReactNode | null,
     defaultOpen: boolean = false
   ) => {
-     if (!content && !isLoadingDetails) return null; // Don't render if no content and not loading
+     if (!content && !isLoadingDetails) return null; 
      return (
-      <AccordionItem value={id} className="border-b-2 border-primary/10">
-        <AccordionTrigger className="py-4 px-2 hover:bg-primary/10 rounded-t-md text-lg font-headline text-primary/90">
+      <AccordionItem value={id} className="border-b-2 border-primary/20 hover:border-primary/40 transition-colors duration-150">
+        <AccordionTrigger className="py-4 px-2 hover:bg-primary/10 rounded-t-md text-lg font-headline text-primary hover:text-primary/90">
           <div className="flex items-center space-x-3">
-            <AlchemicalIcon symbol={icon} size={24} className="text-primary" />
+            {/* Icon color is primarily Indigo (text-primary), glow is Turquoise */}
+            <AlchemicalIcon symbol={iconSymbol} size={24} className="text-primary" /> 
             <span>{title}</span>
           </div>
-          <ChevronDown className="h-5 w-5 shrink-0 text-primary/70 transition-transform duration-200" />
+          <ChevronDown className="h-5 w-5 shrink-0 text-primary/70 transition-transform duration-200 icon-glow-turquoise" />
         </AccordionTrigger>
         <AccordionContent className="pt-2 pb-4 px-2 space-y-3 bg-card-foreground/5 rounded-b-md">
           {isLoadingDetails && !displayNation ? <Loader text={`Unearthing ${title}...`} /> : content}
@@ -219,10 +216,10 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
 
   return (
     <div className="space-y-8 font-body">
-      <Card className="shadow-xl border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 bg-card/80 backdrop-blur-sm">
+      <Card className="shadow-xl border-2 border-primary/30 hover:border-primary/50 transition-all duration-300 bg-card/90 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="font-headline text-3xl text-primary flex items-center gap-2">
-            <Wand2 size={32} />
+            <Wand2 size={32} className="text-primary icon-glow-turquoise" />
             Describe Your Nation's Genesis
           </CardTitle>
           <CardDescription className="text-muted-foreground">
@@ -235,15 +232,15 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
               <Textarea
                 {...register("prompt")}
                 placeholder="E.g., A nomadic star-clan forging an empire amidst asteroid relics, guided by sentient crystals and ancient void-songs."
-                className="min-h-[100px] text-base bg-input/50 focus:border-primary focus:ring-primary"
+                className="min-h-[100px] text-base bg-input/80 focus:border-accent focus:ring-accent"
                 disabled={isLoading}
               />
               {errors.prompt && <p className="text-sm text-destructive mt-1">{errors.prompt.message}</p>}
             </div>
-            <Button type="submit" disabled={isLoading} className="w-full text-lg py-6 bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 transform hover:scale-105 active:scale-100">
-              {isLoadingDetails ? <Loader size="1.2rem" text="Weaving the Tapestry of Worlds..." /> : isLoadingSymbol ? <Loader size="1.2rem" text="Forging the National Emblem..." /> : (
+            <Button type="submit" disabled={isLoading} className="w-full text-lg py-6 bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 transform hover:scale-105 active:scale-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background">
+              {isLoadingDetails ? <Loader size="1.2rem" text="Weaving the Tapestry of Worlds..." className="text-primary-foreground" /> : isLoadingSymbol ? <Loader size="1.2rem" text="Forging the National Emblem..." className="text-primary-foreground" /> : (
                 <>
-                  <Sparkles size={20} className="mr-2" />
+                  <Sparkles size={20} className="mr-2 icon-glow-turquoise" />
                   Generate Nation Details
                 </>
               )}
@@ -254,7 +251,7 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
 
       {error && !isLoading && (
         <Alert variant="destructive" className="animate-fade-in">
-          <AlertCircle className="h-5 w-5" />
+          <AlertCircle className="h-5 w-5 icon-glow-turquoise" />
           <AlertTitle>Error in Creation</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
@@ -263,32 +260,32 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
       {displayNation && (
         <Card 
           className={cn(
-            "shadow-2xl border-2 border-accent/30 hover:border-accent/50 transition-all duration-500 opacity-0 animate-fade-in",
+            "shadow-2xl border-2 border-accent/40 hover:border-accent/60 transition-all duration-500 opacity-0 animate-fade-in",
             isLoadingSymbol ? "animate-pulse" : ""
           )}
           style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
         >
-          <CardHeader className="text-center pb-4">
-            <CardTitle className="font-headline text-4xl md:text-5xl text-primary text-shadow-gold">
+          <CardHeader className="text-center pb-4 border-b-2 border-accent/20">
+            <CardTitle className="font-headline text-4xl md:text-5xl text-accent text-shadow-accent animate-subtle-glow">
               {displayNation.name}
             </CardTitle>
-             <p className="text-md text-accent-foreground/80 mt-1">{displayNation.loreGlobal}</p>
+             <p className="text-md text-muted-foreground mt-1">{displayNation.loreGlobal}</p>
             {isLoadingSymbol && (
                  <div className="flex justify-center mt-3">
-                    <Loader text="Forging Emblem..." size="1rem"/>
+                    <Loader text="Forging Emblem..." size="1rem" className="text-accent"/>
                  </div>
             )}
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-2 pt-6">
              {displayNation.symbolUrl && (
               <div className="mb-6 mt-2 pt-2 text-center">
-                <h3 className="text-2xl font-headline text-center mb-3 text-primary">National Emblem</h3>
-                <div className="flex justify-center items-center bg-background/30 p-3 rounded-lg shadow-inner aspect-square max-w-xs sm:max-w-sm mx-auto overflow-hidden border-2 border-primary/30">
+                <h3 className="text-2xl font-headline text-center mb-3 text-accent">National Emblem</h3>
+                <div className="flex justify-center items-center bg-background/50 p-3 rounded-lg shadow-inner aspect-[3/2] sm:aspect-square max-w-xs sm:max-w-sm mx-auto overflow-hidden border-2 border-accent/40">
                   <Image
                     src={displayNation.symbolUrl}
                     alt={`Symbol of ${displayNation.name}`}
                     width={512}
-                    height={512}
+                    height={341} // Adjusted for a more flag-like ratio initially
                     className="object-contain rounded-md"
                     data-ai-hint="fantasy banner emblem"
                   />
@@ -307,6 +304,7 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
                 onValueChange={setActiveAccordionItems}
                 className="w-full"
             >
+              {/* DetailItem icons will mostly use text-accent (turquoise) by default from AlchemicalIcon component */}
               {renderAccordionItem("geography", "Geography & Climate", "primaMateria", displayNation.geographyAndClimate && (
                 <div className="space-y-2">
                   <DetailItem icon="earth" label="Regions" value={displayNation.geographyAndClimate.regions} isList />
@@ -363,7 +361,7 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
               {renderAccordionItem("languages", "Languages", "scriptulum", displayNation.languages && (
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-semibold text-primary mb-1">Primary Language: {displayNation.languages.primaryLanguage.name}</h4>
+                    <h4 className="font-semibold text-primary mb-1">{displayNation.languages.primaryLanguage.name}</h4>
                     <DetailItem icon="air" label="Grammar Summary" value={displayNation.languages.primaryLanguage.grammarSummary} itemClassName="ml-4"/>
                     <DetailItem icon="primaMateria" label="Script System" value={displayNation.languages.primaryLanguage.scriptSystem} itemClassName="ml-4"/>
                     <DetailItem icon="water" label="Common Expressions" value={displayNation.languages.primaryLanguage.commonExpressions} isList itemClassName="ml-4"/>
@@ -395,14 +393,14 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
               {renderAccordionItem("history", "History by Ages", "hourglass", displayNation.historyByAges && displayNation.historyByAges.length > 0 && (
                 <div className="space-y-4">
                   {displayNation.historyByAges.map((age, index) => (
-                    <div key={index} className="p-2 border border-dashed border-accent/20 rounded-md">
+                    <div key={index} className="p-2 border border-dashed border-primary/20 rounded-md">
                       <h4 className="font-semibold text-primary mb-1">{age.ageName}</h4>
-                      <DetailItem icon="scriptulum" label="Summary" value={age.summary} itemClassName="ml-2"/>
+                      <DetailItem icon="scriptulum" label="Summary" value={age.summary} itemClassName="ml-2" iconClassName="text-primary/80"/>
                       {age.keyEvents && age.keyEvents.length > 0 && (
                         <div className="ml-2 mt-1">
                           <h5 className="font-medium text-primary/80 text-sm mb-1">Key Events:</h5>
                           {age.keyEvents.map((event, eventIdx) =>(
-                            <div key={eventIdx} className="ml-2 pl-2 border-l border-accent/40 mb-1">
+                            <div key={eventIdx} className="ml-2 pl-2 border-l border-primary/40 mb-1">
                                <p className="text-sm text-primary/70 font-semibold">{event.eventName}</p>
                                <p className="text-xs text-card-foreground/70 whitespace-pre-wrap">{event.description}</p>
                             </div>
@@ -428,12 +426,12 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
               {renderAccordionItem("cities", "Major Cities", "civitas", displayNation.majorCities && displayNation.majorCities.length > 0 && (
                  <div className="space-y-3">
                   {displayNation.majorCities.map((city, index) => (
-                    <div key={index} className="p-2 border border-dashed border-accent/20 rounded-md">
+                    <div key={index} className="p-2 border border-dashed border-primary/20 rounded-md">
                       <h4 className="font-semibold text-primary mb-1">{city.cityName}</h4>
-                      <DetailItem icon="scriptulum" label="Description" value={city.description} itemClassName="ml-2"/>
-                      <DetailItem icon="solveCoagula" label="Districts/Castes" value={city.districtsOrCastes} itemClassName="ml-2"/>
-                      <DetailItem icon="athanor" label="Infrastructure" value={city.infrastructureHighlights} itemClassName="ml-2"/>
-                      <DetailItem icon="mercury" label="Population" value={city.populationEstimate} itemClassName="ml-2"/>
+                      <DetailItem icon="scriptulum" label="Description" value={city.description} itemClassName="ml-2" iconClassName="text-primary/80"/>
+                      <DetailItem icon="solveCoagula" label="Districts/Castes" value={city.districtsOrCastes} itemClassName="ml-2" iconClassName="text-primary/80"/>
+                      <DetailItem icon="athanor" label="Infrastructure" value={city.infrastructureHighlights} itemClassName="ml-2" iconClassName="text-primary/80"/>
+                      <DetailItem icon="mercury" label="Population" value={city.populationEstimate} itemClassName="ml-2" iconClassName="text-primary/80"/>
                     </div>
                   ))}
                 </div>
@@ -480,9 +478,9 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
               {renderAccordionItem("documents", "Formal Documents", "scriptulum", displayNation.formalDocumentsGenerated && displayNation.formalDocumentsGenerated.length > 0 && (
                 <div className="space-y-3">
                   {displayNation.formalDocumentsGenerated.map((doc, index) => (
-                    <div key={index} className="p-2 border border-dashed border-accent/20 rounded-md">
+                    <div key={index} className="p-2 border border-dashed border-primary/20 rounded-md">
                       <h4 className="font-semibold text-primary mb-1">{doc.documentName}</h4>
-                      <DetailItem icon="scriptulum" label="Content Summary" value={doc.contentSummary} itemClassName="ml-2"/>
+                      <DetailItem icon="scriptulum" label="Content Summary" value={doc.contentSummary} itemClassName="ml-2" iconClassName="text-primary/80"/>
                     </div>
                   ))}
                 </div>
@@ -491,7 +489,7 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
             </Accordion>
 
           </CardContent>
-           <CardFooter className="justify-center pt-6 border-t border-primary/10 mt-4">
+           <CardFooter className="justify-center pt-6 border-t border-primary/20 mt-4">
             <p className="text-xs text-muted-foreground italic">This realm was envisioned through the mists of AI, meticulously chronicled for your sagas.</p>
           </CardFooter>
         </Card>
@@ -499,4 +497,3 @@ The flag should prominently feature elements reflecting these aspects. Avoid tex
     </div>
   );
 }
-
