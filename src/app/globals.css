@@ -1,47 +1,48 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 2%; /* Near Black #050505 */
-    --foreground: 0 0% 95%; /* Light Gray / Off-White */
+    --background: 220 20% 5%; /* Dark Graphite #0a0a0f -> HSL approx for #0a0a0a */
+    --foreground: 210 15% 95%; /* Light Gray / Off-White */
 
-    --card: 0 0% 7%; /* Dark Gray #121212 */
-    --card-foreground: 174 70% 80%; /* Light Turquoise for text on cards */
+    --card: 230 25% 12%; /* Dark Lead Grey #1e1e2f */
+    --card-foreground: 180 60% 85%; /* Lighter Turquoise for text on cards */
 
-    --popover: 0 0% 5%; /* Slightly darker than card for popovers */
-    --popover-foreground: 0 0% 95%;
+    --popover: 230 20% 10%; /* Slightly darker than card for popovers */
+    --popover-foreground: 210 15% 95%;
 
-    --primary: 174 72% 50%; /* Mystic Turquoise #40e0d0 - Main interactive color */
-    --primary-foreground: 0 0% 5%; /* Dark text for on-turquoise elements */
+    --primary: 180 70% 55%; /* Mystic Turquoise #40e0d0 */
+    --primary-foreground: 220 20% 10%; /* Dark text for on-turquoise elements */
 
-    --secondary: 0 0% 12%; /* Another dark gray for secondary elements */
-    --secondary-foreground: 0 0% 90%;
+    --secondary: 230 20% 15%; /* Another dark gray for secondary elements */
+    --secondary-foreground: 210 15% 90%;
 
-    --muted: 0 0% 10%; /* Darker gray for muted backgrounds */
-    --muted-foreground: 0 0% 60%; /* Grayish text for muted foreground */
+    --muted: 230 20% 13%; /* Darker gray for muted backgrounds */
+    --muted-foreground: 220 10% 65%; /* Grayish text for muted foreground */
 
-    --accent: 174 72% 50%; /* Mystic Turquoise #40e0d0 */
-    --accent-foreground: 0 0% 5%; /* Dark text for on-turquoise elements */
+    --accent: 180 70% 55%; /* Mystic Turquoise #40e0d0 */
+    --accent-foreground: 220 20% 10%; /* Dark text for on-turquoise elements */
 
     --destructive: 0 60% 50%; /* Adjusted red for dark theme */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 174 72% 25%; /* Darker Turquoise for subtle borders or inactive states */
-    --input: 0 0% 10%; /* Dark gray for inputs, similar to muted */
-    --ring: 174 72% 56%; /* Mystic Turquoise for focus rings */
+    --border: 180 50% 30%; /* Darker Turquoise for subtle borders or inactive states */
+    --input: 230 20% 13%; /* Dark gray for inputs, similar to muted */
+    --ring: 180 70% 60%; /* Mystic Turquoise for focus rings */
 
     --radius: 0.5rem;
 
-    --chart-1: 174 70% 50%;
-    --chart-2: 174 80% 60%;
-    --chart-3: 174 60% 40%;
-    --chart-4: 174 90% 70%;
-    --chart-5: 174 50% 30%;
+    --chart-1: 180 70% 50%;
+    --chart-2: 180 80% 60%;
+    --chart-3: 180 60% 40%;
+    --chart-4: 180 90% 70%;
+    --chart-5: 180 50% 30%;
 
     /* Specific for new UI style */
-    --btn-glow-color: hsl(var(--accent) / 0.4);
+    --btn-glow-color: hsl(var(--accent) / 0.4); /* Used by ui-element-glow animation */
     --card-glow-color: hsl(var(--accent) / 0.3);
     --card-border-color: hsl(var(--accent) / 0.2);
   }
@@ -60,12 +61,15 @@
   }
 
   .ui-element-glow {
-    box-shadow: 0 0 10px -2px var(--btn-glow-color), 0 0 4px -1px var(--btn-glow-color) inset;
-    border-color: hsl(var(--accent) / 0.5);
+    /* Base styles are set by the animation keyframes 0%/100% state */
+    @apply animate-element-glow-pulse;
   }
   
   .ui-card-glow {
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    /* Initial state, can be overridden by hover/focus */
+    border-color: hsl(var(--card-border-color)); 
+    box-shadow: 0 0 8px -3px var(--card-glow-color), 0 0 4px -2px var(--card-glow-color) inset;
   }
 
   .ui-card-glow:hover,

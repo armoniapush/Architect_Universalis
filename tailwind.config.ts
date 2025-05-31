@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 export default {
@@ -55,7 +56,6 @@ export default {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
-        // Sidebar colors remain for potential future use, but are not central to this design
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
@@ -98,12 +98,22 @@ export default {
           '50%': { filter: 'drop-shadow(0 0 10px hsl(var(--accent)/0.5))' },
         },
         'title-pulse': {
-          '0%, 100%': { textShadow: '0 0 5px hsl(var(--accent)), 0 0 8px hsl(var(--accent) / 0.8), 0 0 10px hsl(var(--accent) / 0.6)' },
-          '50%': { textShadow: '0 0 8px hsl(var(--accent)), 0 0 15px hsl(var(--accent) / 0.8), 0 0 20px hsl(var(--accent) / 0.6)' },
+          '0%, 100%': { textShadow: '0 0 2px hsl(var(--accent)), 0 0 3px hsl(var(--accent) / 0.8), 0 0 4px hsl(var(--accent) / 0.6)' },
+          '50%': { textShadow: '0 0 4px hsl(var(--accent)), 0 0 6px hsl(var(--accent) / 0.8), 0 0 8px hsl(var(--accent) / 0.6)' },
         },
         'star-shimmer': {
           '0%, 100%': { opacity: '0.3' },
           '50%': { opacity: '0.7' },
+        },
+        'element-glow-pulse': {
+          '0%, 100%': {
+            borderColor: 'hsl(var(--accent) / 0.5)',
+            boxShadow: '0 0 10px -2px hsl(var(--accent) / 0.4), 0 0 4px -1px hsl(var(--accent) / 0.4) inset'
+          },
+          '50%': {
+            borderColor: 'hsl(var(--accent) / 0.7)',
+            boxShadow: '0 0 15px 0px hsl(var(--accent) / 0.5), 0 0 6px 0px hsl(var(--accent) / 0.5) inset'
+          }
         }
       },
       animation: {
@@ -113,6 +123,7 @@ export default {
         'subtle-glow': 'subtle-glow 3s ease-in-out infinite alternate',
         'title-pulse': 'title-pulse 2.5s ease-in-out infinite alternate',
         'star-shimmer': 'star-shimmer 10s ease-in-out infinite alternate',
+        'element-glow-pulse': 'element-glow-pulse 2.5s ease-in-out infinite alternate',
       },
     },
   },
