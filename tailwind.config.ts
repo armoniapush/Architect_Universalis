@@ -98,8 +98,8 @@ export default {
           '50%': { filter: 'drop-shadow(0 0 10px hsl(var(--accent)/0.5))' },
         },
         'title-pulse': {
-          '0%, 100%': { textShadow: '0 0 7px hsl(var(--accent)), 0 0 12px hsl(var(--accent) / 0.8), 0 0 17px hsl(var(--accent) / 0.6)' },
-          '50%': { textShadow: '0 0 12px hsl(var(--accent)), 0 0 22px hsl(var(--accent) / 0.8), 0 0 32px hsl(var(--accent) / 0.6)' },
+          '0%, 100%': { textShadow: '0 0 5px hsl(var(--accent)), 0 0 8px hsl(var(--accent) / 0.8), 0 0 10px hsl(var(--accent) / 0.6)' },
+          '50%': { textShadow: '0 0 8px hsl(var(--accent)), 0 0 15px hsl(var(--accent) / 0.8), 0 0 20px hsl(var(--accent) / 0.6)' },
         },
         'star-shimmer': {
           '0%, 100%': { opacity: '0.3' },
