@@ -39,11 +39,11 @@ interface DetailItemProps {
 const DetailItem: React.FC<DetailItemProps> = ({ icon, label, value, isList, itemClassName, iconClassName }) => {
   if (value === undefined || value === null || (Array.isArray(value) && value.length === 0) || value === "") {
     return (
-       <div className={cn("flex items-start space-x-3 p-2.5 bg-card/50 rounded-md", itemClassName)}>
+       <div className={cn("flex items-start space-x-3 p-2.5 bg-card/50 rounded-md border-[3px] border-[#151515]", itemClassName)}>
         <AlchemicalIcon symbol={icon} size={24} className={cn("text-accent/80 mt-1 flex-shrink-0", iconClassName)} />
         <div>
-          <h3 className="text-base font-semibold text-accent/90">{label}</h3>
-          <p className="text-card-foreground/60 text-base italic">No especificado</p>
+          <h3 className="text-lg font-semibold text-accent/90">{label}</h3>
+          <p className="text-card-foreground/60 text-lg italic">No especificado</p>
         </div>
       </div>
     );
@@ -56,23 +56,23 @@ const DetailItem: React.FC<DetailItemProps> = ({ icon, label, value, isList, ite
     if (Array.isArray(value)) {
       if (isList) {
         return (
-          <ul className="list-disc list-inside text-card-foreground/80 text-base space-y-1">
+          <ul className="list-disc list-inside text-card-foreground/80 text-lg space-y-1">
             {value.map((item, index) => (
               <li key={index}>{item}</li>
             ))}
           </ul>
         );
       }
-      return <p className="text-card-foreground/80 text-base">{value.join(', ')}</p>;
+      return <p className="text-card-foreground/80 text-lg">{value.join(', ')}</p>;
     }
-    return <p className="text-card-foreground/80 text-base whitespace-pre-wrap">{String(value)}</p>;
+    return <p className="text-card-foreground/80 text-lg whitespace-pre-wrap">{String(value)}</p>;
   };
 
   return (
-    <div className={cn("flex items-start space-x-3 p-2.5 bg-card/50 rounded-md", itemClassName)}>
+    <div className={cn("flex items-start space-x-3 p-2.5 bg-card/50 rounded-md border-[3px] border-[#151515]", itemClassName)}>
       <AlchemicalIcon symbol={icon} size={24} className={cn("text-accent/80 mt-1 flex-shrink-0", iconClassName)} />
       <div>
-        <h3 className="text-base font-semibold text-accent/90">{label}</h3>
+        <h3 className="text-lg font-semibold text-accent/90">{label}</h3>
         {renderValue()}
       </div>
     </div>
@@ -191,11 +191,11 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
   ) => {
     return (
       <div className="flex items-center w-full p-4 space-x-4">
-        <AlchemicalIcon symbol={iconSymbol} size={28} className="text-accent group-hover:text-accent/80 transition-colors flex-shrink-0" />
-        <span className="flex-grow text-lg font-headline uppercase tracking-wider text-accent group-hover:text-accent/80 transition-colors">
+        <AlchemicalIcon symbol={iconSymbol} size={32} className="text-accent group-hover:text-accent/80 transition-colors flex-shrink-0" />
+        <span className="flex-grow text-xl font-headline uppercase tracking-wider text-accent group-hover:text-accent/80 transition-colors">
           {title}
         </span>
-        <ChevronDown className={cn("h-5 w-5 text-accent/70 transition-transform duration-200", isOpen && "rotate-180")} />
+        <ChevronDown className={cn("h-6 w-6 text-accent/70 transition-transform duration-200", isOpen && "rotate-180")} />
       </div>
     );
   };
@@ -205,11 +205,11 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
     <div className="space-y-8 font-body">
       <Card className="bg-card border border-transparent shadow-xl">
         <CardHeader>
-          <CardTitle className="font-headline text-3xl text-accent flex items-center gap-2">
-            <Wand2 size={28} className="text-accent" />
+          <CardTitle className="font-headline text-4xl text-accent flex items-center gap-2">
+            <Wand2 size={32} className="text-accent" />
             Define la Esencia de tu Nación
           </CardTitle>
-          <CardDescription className="text-muted-foreground text-base">
+          <CardDescription className="text-muted-foreground text-lg">
             Describe el concepto central. Sé breve y evocador.
           </CardDescription>
         </CardHeader>
@@ -219,19 +219,19 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
               <Textarea
                 {...register("prompt")}
                 placeholder="Ej: Una civilización élfica que habita en ciudades flotantes de cristal, impulsadas por música arcana..."
-                className="min-h-[80px] text-lg md:text-base bg-input border-border/50 focus:border-accent focus:ring-accent placeholder-muted-foreground"
+                className="min-h-[80px] text-xl md:text-lg bg-input border-border/50 focus:border-accent focus:ring-accent placeholder-muted-foreground"
                 disabled={isLoading}
               />
-              {errors.prompt && <p className="text-base text-destructive mt-1">{errors.prompt.message}</p>}
+              {errors.prompt && <p className="text-lg text-destructive mt-1">{errors.prompt.message}</p>}
             </div>
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full text-xl py-3 bg-card hover:bg-card/90 border border-accent/60 text-accent transition-all duration-300 transform hover:scale-[1.02] active:scale-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background ui-element-glow"
+              className="w-full text-2xl py-3 bg-card hover:bg-card/90 border border-accent/60 text-accent transition-all duration-300 transform hover:scale-[1.02] active:scale-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background ui-element-glow"
             >
-              {isLoadingDetails ? <Loader size="1.2rem" text="Tejiendo el Cosmos..." className="text-accent" /> : isLoadingSymbol ? <Loader size="1.2rem" text="Forjando el Símbolo..." className="text-accent" /> : (
+              {isLoadingDetails ? <Loader size="1.5rem" text="Tejiendo el Cosmos..." className="text-accent" /> : isLoadingSymbol ? <Loader size="1.5rem" text="Forjando el Símbolo..." className="text-accent" /> : (
                 <>
-                  <Sparkles size={20} className="mr-2" />
+                  <Sparkles size={24} className="mr-2" />
                   Generar Nación
                 </>
               )}
@@ -242,7 +242,7 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
 
       {error && !isLoading && (
         <Alert variant="destructive" className="animate-fade-in border-destructive/70 bg-destructive/10">
-          <AlertCircle className="h-5 w-5 text-destructive" />
+          <AlertCircle className="h-6 w-6 text-destructive" />
           <AlertTitle>Error en la Creación</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
@@ -257,20 +257,20 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
           style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
         >
           <CardHeader className="text-center pb-4 mb-6">
-            <CardTitle className="font-headline text-5xl md:text-6xl text-accent uppercase tracking-wider">
+            <CardTitle className="font-headline text-6xl md:text-7xl text-accent uppercase tracking-wider">
               {displayNation.name}
             </CardTitle>
-             <p className="text-lg text-muted-foreground mt-2 font-body">{displayNation.loreGlobal}</p>
+             <p className="text-xl text-muted-foreground mt-2 font-body">{displayNation.loreGlobal}</p>
             {isLoadingSymbol && (
                  <div className="flex justify-center mt-3">
-                    <Loader text="Forjando Emblema..." size="1rem" className="text-accent"/>
+                    <Loader text="Forjando Emblema..." size="1.2rem" className="text-accent"/>
                  </div>
             )}
           </CardHeader>
           <CardContent className="space-y-2 p-0">
              {displayNation.symbolUrl && (
               <div className="mb-8 mt-2 text-center">
-                <h3 className="text-3xl font-headline text-center mb-4 text-accent uppercase tracking-wide">Emblema Nacional</h3>
+                <h3 className="text-4xl font-headline text-center mb-4 text-accent uppercase tracking-wide">Emblema Nacional</h3>
                 <div className="flex justify-center items-center bg-card p-3 rounded-lg shadow-lg aspect-[3/2] sm:aspect-video max-w-xs sm:max-w-md mx-auto overflow-hidden border border-accent/30 ui-card-glow">
                   <Image
                     src={displayNation.symbolUrl}
@@ -284,7 +284,7 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
               </div>
             )}
             {!displayNation.symbolUrl && !isLoadingSymbol && !isLoadingDetails && (
-                 <div className="mb-8 mt-2 pt-2 text-center text-base text-muted-foreground italic">
+                 <div className="mb-8 mt-2 pt-2 text-center text-lg text-muted-foreground italic">
                     No se generó emblema para esta nación.
                  </div>
             )}
@@ -340,7 +340,7 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                 languages: { title: "Idiomas", icon: "scriptulum", content: displayNation.languages && (
                   <div className="space-y-3">
                     <div>
-                      <h4 className="font-semibold text-accent mb-1 text-lg">{displayNation.languages.primaryLanguage.name} (Principal)</h4>
+                      <h4 className="font-semibold text-accent mb-1 text-xl">{displayNation.languages.primaryLanguage.name} (Principal)</h4>
                       <DetailItem icon="air" label="Gramática" value={displayNation.languages.primaryLanguage.grammarSummary} itemClassName="ml-3"/>
                       <DetailItem icon="primaMateria" label="Escritura" value={displayNation.languages.primaryLanguage.scriptSystem} itemClassName="ml-3"/>
                     </div>
@@ -349,9 +349,9 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                 history: { title: "Historia", icon: "hourglass", content: displayNation.historyByAges && displayNation.historyByAges.length > 0 && (
                   <div className="space-y-3">
                     {displayNation.historyByAges.slice(0,3).map((age, index) => (
-                      <div key={index} className="p-1.5 border border-dashed border-accent/20 rounded-md bg-card/30">
-                        <h4 className="font-semibold text-accent/90 mb-0.5 text-base">{age.ageName}</h4>
-                        <p className="text-sm text-card-foreground/70 whitespace-pre-wrap leading-tight">{age.summary.substring(0,150)}...</p>
+                      <div key={index} className="p-1.5 border-[3px] border-[#151515] rounded-md bg-card/30">
+                        <h4 className="font-semibold text-accent/90 mb-0.5 text-lg">{age.ageName}</h4>
+                        <p className="text-base text-card-foreground/70 whitespace-pre-wrap leading-tight">{age.summary.substring(0,150)}...</p>
                       </div>
                     ))}
                   </div>
@@ -377,9 +377,9 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                 cities: { title: "Ciudades", icon: "civitas", content: displayNation.majorCities && displayNation.majorCities.length > 0 && (
                    <div className="space-y-2.5">
                     {displayNation.majorCities.slice(0,2).map((city, index) => (
-                      <div key={index} className="p-1.5 border border-dashed border-accent/20 rounded-md bg-card/30">
-                        <h4 className="font-semibold text-accent/90 mb-0.5 text-base">{city.cityName}</h4>
-                        <p className="text-sm text-card-foreground/70 whitespace-pre-wrap leading-tight">{city.description.substring(0,100)}...</p>
+                      <div key={index} className="p-1.5 border-[3px] border-[#151515] rounded-md bg-card/30">
+                        <h4 className="font-semibold text-accent/90 mb-0.5 text-lg">{city.cityName}</h4>
+                        <p className="text-base text-card-foreground/70 whitespace-pre-wrap leading-tight">{city.description.substring(0,100)}...</p>
                       </div>
                     ))}
                   </div>
@@ -406,10 +406,11 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
 
           </CardContent>
            <CardFooter className="justify-center pt-8 mt-8 border-t border-border/30">
-            <p className="text-sm text-muted-foreground italic">Este universo fue conjurado por IA, para tus épicas narrativas.</p>
+            <p className="text-base text-muted-foreground italic">Este universo fue conjurado por IA, para tus épicas narrativas.</p>
           </CardFooter>
         </Card>
       )}
     </div>
   );
 }
+

@@ -42,30 +42,6 @@ Built upon the design principles outlined in `docs/blueprint.md`, this template 
 
     This file provides a starting point for understanding the frontend structure and how it interacts with the nation generation logic.
 
-## 🗺️ Project Structure Highlights 🗺️
-
-*(This section assumes a typical Genkit project structure. Adjust if your structure differs.)*
-
-.
-├── .firebaserc             # Firebase project configuration
-├── firebase.json           # Firebase hosting configuration
-├── genkit/                 # Likely contains Genkit flows and AI logic
-│   ├── ...
-├── docs/
-│   └── blueprint.md        # Design principles document
-├── public/                 # Static assets
-├── src/
-│   ├── app/                # NextJS application routes and components
-│   │   └── page.tsx        # Main application page
-│   ├── components/         # Reusable UI components
-│   ├── styles/             # Global styles and Tailwind configurations
-│   └── ...
-├── tailwind.config.ts      # Tailwind CSS configuration
-├── tsconfig.json           # TypeScript configuration
-├── package.json            # Project dependencies and scripts
-└── README.md               # This file
-
-
 ## ✨ Contributing ✨
 
 *(Optional: Add your contribution guidelines here if you plan to open-source or collaborate on this project.)*
