@@ -293,7 +293,7 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                 type="multiple"
                 value={activeAccordionItems}
                 onValueChange={setActiveAccordionItems}
-                className="w-full space-y-3" // Added space-y-3 for margin between items
+                className="w-full space-y-3" 
             >
               {Object.entries({
                 geography: { title: "Geografía", icon: "primaMateria", content: displayNation.geographyAndClimate && (
@@ -356,7 +356,7 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                     ))}
                   </div>
                 )},
-                military: { title: "Militar", icon: "regulus", content: displayNation.militaryAndDefense && (
+                military: { title: "Militar", icon: "crossedSwords", content: displayNation.militaryAndDefense && (
                   <div className="space-y-1.5">
                     <DetailItem icon="fire" label="Composición del Ejército" value={displayNation.militaryAndDefense.armyComposition} />
                     <DetailItem icon="sulfur" label="Unidades Únicas" value={displayNation.militaryAndDefense.uniqueUnitsOrSpecialForces} isList />
@@ -414,3 +414,4 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
   );
 }
 
+    
