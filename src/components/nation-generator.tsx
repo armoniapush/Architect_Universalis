@@ -15,7 +15,7 @@ import { Loader } from '@/components/ui/loader';
 import { AlchemicalIcon, type AlchemicalSymbol } from '@/components/alchemical-icon';
 import { generateNationDetails, type GenerateNationDetailsOutput, type GenerateNationDetailsInput } from '@/ai/flows/generate-nation-details';
 import { generateNationSymbol } from '@/ai/flows/generate-nation-symbol';
-import { Wand2, Sparkles, AlertCircle, ChevronDown } from 'lucide-react';
+import { Wand2, Sparkles, AlertCircle, ChevronDown, Lightbulb, Copy } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { cn } from '@/lib/utils';
 
@@ -35,6 +35,33 @@ interface DetailItemProps {
   itemClassName?: string;
   iconClassName?: string;
 }
+
+const races = ["elfos", "orcos", "enanos", "humanos", "seres acuáticos", "gigantes", "dracónidos", "hombres bestia", "constructos", "feéricos", "sombríos"];
+const adjectives = ["nómadas", "post-apocalípticos", "tecnológicos", "misteriosos", "olvidados", "flotantes", "subterráneos", "pacíficos", "guerreros", "comerciantes", "ancestrales", "corruptos"];
+const historicalCultures = ["mayas", "romanos", "vikingos", "egipcios", "japoneses feudales", "mongoles", "aztecas", "celtas", "persas", "griegos", "incas"];
+const settings = ["desértico", "selvático", "ártico", "volcánico", "de ciudades celestiales", "de ruinas antiguas", "en un mundo moribundo", "bajo el océano", "en el espacio profundo", "en una luna fragmentada"];
+const coreElements = ["magia elemental", "tecnología perdida", "poderes psíquicos", "alquimia avanzada", "armonía con la naturaleza", "secretos cósmicos", "ingeniería mecánica", "tradiciones arcanas", "energía de cristales"];
+
+function getRandomElement<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateInspirationText(): string {
+  const race = getRandomElement(races);
+  const adjective = getRandomElement(adjectives);
+  const culture = getRandomElement(historicalCultures);
+  const setting = getRandomElement(settings);
+  const element = getRandomElement(coreElements);
+  
+  const structures = [
+    `Una nación de ${race} ${adjective} que dominan ${element}, con fuertes influencias de la cultura ${culture} en un entorno ${setting}.`,
+    `Imagina un pueblo de ${race} ${adjective}, herederos de la sabiduría ${culture} y guardianes de ${element}, habitando en ${setting}.`,
+    `Explora las posibilidades de ${race} ${adjective} en un mundo ${setting}, donde la ${element} se entrelaza con vestigios de los ${culture}.`,
+    `Visualiza una civilización de ${race} ${adjective} influenciada por los ${culture}, cuyo destino gira en torno a ${element} en un paisaje ${setting}.`
+  ];
+  return getRandomElement(structures);
+}
+
 
 const DetailItem: React.FC<DetailItemProps> = ({ icon, label, value, isList, itemClassName, iconClassName }) => {
   if (value === undefined || value === null || (Array.isArray(value) && value.length === 0) || value === "") {
@@ -87,11 +114,12 @@ export function NationGenerator() {
   const [error, setError] = useState<string | null>(null);
   const [displayNation, setDisplayNation] = useState<NationData | null>(null);
   const [activeAccordionItems, setActiveAccordionItems] = useState<string[]>([]);
+  const [generatedIdea, setGeneratedIdea] = useState<string>("");
 
 
   const { toast } = useToast();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
 
@@ -107,6 +135,20 @@ export function NationGenerator() {
       setActiveAccordionItems([]);
     }
   }, [nationData]);
+
+  const handleGenerateIdea = () => {
+    setGeneratedIdea(generateInspirationText());
+  };
+
+  const handleUseIdea = () => {
+    if (generatedIdea) {
+      setValue("prompt", generatedIdea);
+      toast({
+        title: "Idea Copiada",
+        description: "La idea ha sido copiada al campo de texto principal.",
+      });
+    }
+  };
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsLoadingDetails(true);
@@ -203,6 +245,40 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
 
   return (
     <div className="space-y-8 font-body">
+      <Card className="bg-card border border-transparent shadow-xl mb-12">
+        <CardHeader>
+          <CardTitle className="font-headline text-4xl text-accent flex items-center gap-2">
+            <Lightbulb size={32} className="text-accent" />
+            Forja tu Concepto
+          </CardTitle>
+          <CardDescription className="text-muted-foreground text-lg">
+            ¿Necesitas inspiración? Genera una idea aleatoria para comenzar.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Button
+            onClick={handleGenerateIdea}
+            disabled={isLoading}
+            className="w-full py-3 bg-card hover:bg-card/90 border border-accent/60 text-accent transition-all duration-300 transform hover:scale-[1.02] active:scale-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background ui-element-glow"
+          >
+            <Sparkles size={28} className="mr-2" /> Sugerir Idea Aleatoria
+          </Button>
+          {generatedIdea && (
+            <div className="p-4 bg-input border border-border/50 rounded-md space-y-3">
+              <p className="text-lg text-foreground/90">{generatedIdea}</p>
+              <Button
+                onClick={handleUseIdea}
+                variant="outline"
+                size="sm"
+                className="border-accent/50 text-accent hover:bg-accent/10 hover:text-accent ui-element-glow"
+              >
+                <Copy size={18} className="mr-2" /> Usar esta Idea
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+      
       <Card className="bg-card border border-transparent shadow-xl">
         <CardHeader>
           <CardTitle className="font-headline text-4xl text-accent flex items-center gap-2">
