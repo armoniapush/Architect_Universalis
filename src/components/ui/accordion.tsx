@@ -3,24 +3,20 @@
 
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
-// ChevronDown is removed as the new design doesn't explicitly show it on the card triggers.
-// If needed for other accordion uses, it can be re-added or managed locally.
+// ChevronDown is conditionally used in nation-generator.tsx now, not here by default.
 
 import { cn } from "@/lib/utils"
 
 const Accordion = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root> & { asChild?: boolean }
->(({ className, asChild, ...props }, ref) => {
-  const Comp = asChild ? AccordionPrimitive.Root : "div" // Use div if asChild, else Root
-  return (
-    <Comp
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Root>
+>(({ className, ...props }, ref) => (
+    <AccordionPrimitive.Root
       ref={ref}
-      className={cn(className)} // Removed default 'w-full' to allow grid styling by parent
+      className={cn("w-full", className)} // Ensure it takes full width by default
       {...props}
     />
-  )
-})
+))
 Accordion.displayName = AccordionPrimitive.Root.displayName
 
 
@@ -30,7 +26,7 @@ const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b-0", className)} // Removed border-b for card styling
+    className={cn("border-b-0", className)} // border-b removed, individual items will handle their styling
     {...props}
   />
 ))
@@ -44,14 +40,15 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 font-medium transition-all [&[data-state=open]>svg.accordion-chevron]:rotate-180", // Added accordion-chevron class for specific targeting
+        "flex flex-1 items-center justify-between font-medium transition-all hover:no-underline", // Removed py-4 to allow custom padding by content
+        // Chevron rotation logic can be handled by the consumer if they add a chevron
+        // '[&[data-state=open]>svg.accordion-chevron]:rotate-180', 
         className
       )}
       {...props}
     >
       {children}
-      {/* Chevron is removed from default trigger for the card UI. Can be added if a specific accordion needs it. */}
-      {/* <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 accordion-chevron" /> */}
+      {/* Chevron is removed from default trigger. Consumer can add their own. */}
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))
@@ -66,10 +63,12 @@ const AccordionContent = React.forwardRef<
     className="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}
   >
-    <div className={cn("pb-4 pt-0", className)}>{children}</div>
+    <div className={cn("pb-4 pt-0", className)}>{children}</div> 
+    {/* Default pt-0, can be overridden */}
   </AccordionPrimitive.Content>
 ))
 
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
 
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+

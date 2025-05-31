@@ -15,7 +15,7 @@ import { Loader } from '@/components/ui/loader';
 import { AlchemicalIcon, type AlchemicalSymbol } from '@/components/alchemical-icon';
 import { generateNationDetails, type GenerateNationDetailsOutput, type GenerateNationDetailsInput } from '@/ai/flows/generate-nation-details';
 import { generateNationSymbol } from '@/ai/flows/generate-nation-symbol';
-import { Wand2, Sparkles, AlertCircle } from 'lucide-react';
+import { Wand2, Sparkles, AlertCircle, ChevronDown } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { cn } from '@/lib/utils';
 
@@ -30,10 +30,10 @@ type NationData = GenerateNationDetailsOutput & { symbolUrl?: string };
 interface DetailItemProps {
   icon: AlchemicalSymbol;
   label: string;
-  value?: string | string[] | null | ReactNode; 
+  value?: string | string[] | null | ReactNode;
   isList?: boolean;
   itemClassName?: string;
-  iconClassName?: string; 
+  iconClassName?: string;
 }
 
 const DetailItem: React.FC<DetailItemProps> = ({ icon, label, value, isList, itemClassName, iconClassName }) => {
@@ -97,10 +97,9 @@ export function NationGenerator() {
 
   useEffect(() => {
     if (nationData) {
-      const timer = setTimeout(() => setDisplayNation(nationData), 100); 
+      const timer = setTimeout(() => setDisplayNation(nationData), 100);
       if (nationData) {
-         // Keep only a few open by default or none for the new grid UI
-         setActiveAccordionItems([]); 
+         setActiveAccordionItems([]);
       }
       return () => clearTimeout(timer);
     } else {
@@ -111,9 +110,9 @@ export function NationGenerator() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsLoadingDetails(true);
-    setIsLoadingSymbol(false); 
+    setIsLoadingSymbol(false);
     setError(null);
-    setNationData(null); 
+    setNationData(null);
 
     try {
       toast({
@@ -124,12 +123,10 @@ export function NationGenerator() {
 
       const detailsPayload: GenerateNationDetailsInput = { prompt: data.prompt };
       const details = await generateNationDetails(detailsPayload);
-      
+
       let currentNationData: NationData = { ...details };
-      setNationData(currentNationData); 
+      setNationData(currentNationData);
       setIsLoadingDetails(false);
-      
-      // setActiveAccordionItems(['lore', 'geography']); // Or none to keep cards closed
 
 
       if (details.visualAestheticOverall) {
@@ -139,13 +136,13 @@ export function NationGenerator() {
           description: "Creando un emblema único para tu nación.",
           duration: 5000,
         });
-        
+
         const symbolPrompt = `Un estandarte o bandera en un estilo de arte vectorial limpio, simbólico, adecuado para una interfaz futurista o mística. Representa a la nación de ${details.name}.
 Estética Visual General: ${details.visualAestheticOverall}.
 Colores Dominantes: Grises oscuros, negros, con acentos turquesa vibrantes.
 Símbolos/Motivos Clave del Arte: ${details.artAndAesthetics.visualSymbolsAndMotifs.join(', ')}.
 La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. Asegurar que sea visualmente impactante y temáticamente consistente. Diseño minimalista.`;
-        
+
         try {
             const symbolResult = await generateNationSymbol({ prompt: symbolPrompt });
             setNationData(prev => prev ? ({ ...prev, symbolUrl: symbolResult.symbolDataUri }) : null);
@@ -184,27 +181,24 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
       setIsLoadingSymbol(false);
     }
   };
-  
+
   const isLoading = isLoadingDetails || isLoadingSymbol;
 
-  const renderAccordionTriggerCard = (
-    title: string, 
-    iconSymbol: AlchemicalSymbol
+  const renderAccordionTriggerBar = (
+    title: string,
+    iconSymbol: AlchemicalSymbol,
+    isOpen: boolean
   ) => {
     return (
-      <div className="flex flex-col items-center justify-center p-4 aspect-[4/3] text-center"> {/* Adjusted aspect ratio */}
-        <AlchemicalIcon symbol={iconSymbol} size={48} className="mb-2 text-accent group-hover:text-accent/80 transition-colors" />
-        <span className="text-sm font-headline uppercase tracking-wider text-accent group-hover:text-accent/80 transition-colors">{title}</span>
+      <div className="flex items-center w-full p-4 space-x-4">
+        <AlchemicalIcon symbol={iconSymbol} size={28} className="text-accent group-hover:text-accent/80 transition-colors flex-shrink-0" />
+        <span className="flex-grow text-md font-headline uppercase tracking-wider text-accent group-hover:text-accent/80 transition-colors">
+          {title}
+        </span>
+        <ChevronDown className={cn("h-5 w-5 text-accent/70 transition-transform duration-200", isOpen && "rotate-180")} />
       </div>
     );
   };
-  
-  // Wrapper for Accordion to display items in a grid
-  const AccordionGridWrapper: React.FC<{children: ReactNode}> = ({ children }) => (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-      {children}
-    </div>
-  );
 
 
   return (
@@ -230,9 +224,9 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
               />
               {errors.prompt && <p className="text-sm text-destructive mt-1">{errors.prompt.message}</p>}
             </div>
-            <Button 
-              type="submit" 
-              disabled={isLoading} 
+            <Button
+              type="submit"
+              disabled={isLoading}
               className="w-full text-lg py-3 bg-card hover:bg-card/90 border border-accent/60 text-accent transition-all duration-300 transform hover:scale-[1.02] active:scale-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background ui-element-glow"
             >
               {isLoadingDetails ? <Loader size="1.2rem" text="Tejiendo el Cosmos..." className="text-accent" /> : isLoadingSymbol ? <Loader size="1.2rem" text="Forjando el Símbolo..." className="text-accent" /> : (
@@ -255,9 +249,9 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
       )}
 
       {displayNation && (
-        <Card 
+        <Card
           className={cn(
-            "bg-transparent border-none shadow-none opacity-0 animate-fade-in", // Main card transparent
+            "bg-transparent border-none shadow-none opacity-0 animate-fade-in",
             isLoadingSymbol ? "animate-pulse" : ""
           )}
           style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
@@ -282,7 +276,7 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                     src={displayNation.symbolUrl}
                     alt={`Símbolo de ${displayNation.name}`}
                     width={512}
-                    height={341} 
+                    height={341}
                     className="object-contain rounded-md"
                     data-ai-hint="fantasy emblem symbol"
                   />
@@ -294,15 +288,13 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                     No se generó emblema para esta nación.
                  </div>
             )}
-            
-            <Accordion 
-                type="multiple" 
+
+            <Accordion
+                type="multiple"
                 value={activeAccordionItems}
                 onValueChange={setActiveAccordionItems}
-                className="w-full"
-                asChild // Use child as the root for grid
+                className="w-full space-y-3" // Added space-y-3 for margin between items
             >
-            <AccordionGridWrapper>
               {Object.entries({
                 geography: { title: "Geografía", icon: "primaMateria", content: displayNation.geographyAndClimate && (
                     <div className="space-y-1.5">
@@ -356,7 +348,7 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                 )},
                 history: { title: "Historia", icon: "hourglass", content: displayNation.historyByAges && displayNation.historyByAges.length > 0 && (
                   <div className="space-y-3">
-                    {displayNation.historyByAges.slice(0,3).map((age, index) => ( // Show first 3 ages for brevity in card
+                    {displayNation.historyByAges.slice(0,3).map((age, index) => (
                       <div key={index} className="p-1.5 border border-dashed border-accent/20 rounded-md bg-card/30">
                         <h4 className="font-semibold text-accent/90 mb-0.5 text-sm">{age.ageName}</h4>
                         <p className="text-xs text-card-foreground/70 whitespace-pre-wrap leading-tight">{age.summary.substring(0,150)}...</p>
@@ -384,7 +376,7 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                 )},
                 cities: { title: "Ciudades", icon: "civitas", content: displayNation.majorCities && displayNation.majorCities.length > 0 && (
                    <div className="space-y-2.5">
-                    {displayNation.majorCities.slice(0,2).map((city, index) => ( // Show first 2 cities
+                    {displayNation.majorCities.slice(0,2).map((city, index) => (
                       <div key={index} className="p-1.5 border border-dashed border-accent/20 rounded-md bg-card/30">
                         <h4 className="font-semibold text-accent/90 mb-0.5 text-sm">{city.cityName}</h4>
                         <p className="text-xs text-card-foreground/70 whitespace-pre-wrap leading-tight">{city.description.substring(0,100)}...</p>
@@ -392,27 +384,24 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
                     ))}
                   </div>
                 )},
-                // Add more categories here if needed, following the pattern
-                // Ensure keys are unique (e.g., "genealogy", "symbolsAlch", "international", "documents")
-              }).filter(([key, val]) => val.content || isLoadingDetails) // Filter out empty sections unless loading
+              }).filter(([key, val]) => val.content || isLoadingDetails)
                 .map(([key, item]) => (
-                <AccordionItem 
-                    key={key} 
-                    value={key} 
-                    className="bg-card border border-[hsl(var(--card-border-color))] rounded-lg ui-card-glow data-[state=open]:border-accent/70 data-[state=open]:shadow-[0_0_20px_-5px_var(--card-glow-color),_0_0_10px_-3px_var(--card-glow-color)_inset]"
+                <AccordionItem
+                    key={key}
+                    value={key}
+                    className="bg-card border border-[hsl(var(--card-border-color))] rounded-lg ui-card-glow data-[state=open]:border-accent/70 data-[state=open]:shadow-[0_0_20px_-5px_var(--card-glow-color),_0_0_10px_-3px_var(--card-glow-color)_inset] overflow-hidden"
                 >
-                  <AccordionTrigger 
-                    className="p-0 hover:no-underline group rounded-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
-                    aria-label={`Toggle ${item.title} section`}
+                  <AccordionTrigger
+                    className="w-full hover:no-underline group focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background data-[state=closed]:rounded-lg data-[state=open]:rounded-t-lg"
+                    aria-label={`Desplegar sección ${item.title}`}
                   >
-                    {renderAccordionTriggerCard(item.title, item.icon as AlchemicalSymbol)}
+                    {renderAccordionTriggerBar(item.title, item.icon as AlchemicalSymbol, activeAccordionItems.includes(key))}
                   </AccordionTrigger>
-                  <AccordionContent className="pt-3 pb-4 px-3 md:px-4 space-y-3 bg-card/30 rounded-b-lg">
+                  <AccordionContent className="pt-3 pb-4 px-3 md:px-4 space-y-3 bg-card/40 border-t border-accent/20 data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
                     {isLoadingDetails && !displayNation?.[key as keyof NationData] ? <Loader text={`Cargando ${item.title}...`} className="text-accent"/> : item.content}
                   </AccordionContent>
                 </AccordionItem>
               ))}
-              </AccordionGridWrapper>
             </Accordion>
 
           </CardContent>
@@ -424,3 +413,4 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
     </div>
   );
 }
+
