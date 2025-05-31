@@ -14,7 +14,7 @@ export const Loader = ({ className, size = "1.5rem", text }: LoaderProps) => {
         className={cn('animate-spin', className)}
         style={{ width: size, height: size }}
       />
-      {text && <span className="text-sm text-muted-foreground">{text}</span>}
+      {text && <span className="text-base text-muted-foreground">{text}</span>}
     </div>
   );
 };
