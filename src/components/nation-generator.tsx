@@ -227,13 +227,10 @@ La bandera debe destacar elementos que reflejen estos aspectos. Evitar texto. As
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full text-2xl py-3 bg-card hover:bg-card/90 border border-accent/60 text-accent transition-all duration-300 transform hover:scale-[1.02] active:scale-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background ui-element-glow"
+              className="w-full py-3 bg-card hover:bg-card/90 border border-accent/60 text-accent transition-all duration-300 transform hover:scale-[1.02] active:scale-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background ui-element-glow"
             >
               {isLoadingDetails ? <Loader size="1.5rem" text="Tejiendo el Cosmos..." className="text-accent" /> : isLoadingSymbol ? <Loader size="1.5rem" text="Forjando el Símbolo..." className="text-accent" /> : (
-                <>
-                  <Sparkles size={24} className="mr-2" />
-                  Generar Nación
-                </>
+                <Sparkles size={32} />
               )}
             </Button>
           </form>
