@@ -12,7 +12,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['EB Garamond', 'serif'],
-        headline: ['Rajdhani', 'sans-serif'], // Changed to Rajdhani
+        headline: ['Rajdhani', 'sans-serif'],
         code: ['monospace', 'monospace'],
       },
       colors: {
@@ -99,21 +99,18 @@ export default {
         },
         'title-pulse': {
           '0%, 100%': { textShadow: '0 0 2px hsl(var(--accent)), 0 0 3px hsl(var(--accent) / 0.8), 0 0 4px hsl(var(--accent) / 0.6)' },
-          '50%': { textShadow: '0 0 4px hsl(var(--accent)), 0 0 6px hsl(var(--accent) / 0.8), 0 0 8px hsl(var(--accent) / 0.6)' },
+          '50%': { textShadow: '0 0 3px hsl(var(--accent)), 0 0 5px hsl(var(--accent) / 0.8), 0 0 7px hsl(var(--accent) / 0.6)' },
         },
         'star-shimmer': {
           '0%, 100%': { opacity: '0.3' },
           '50%': { opacity: '0.7' },
         },
-        'element-glow-pulse': {
-          '0%, 100%': {
-            borderColor: 'hsl(var(--accent) / 0.5)',
-            boxShadow: '0 0 10px -2px hsl(var(--accent) / 0.4), 0 0 4px -1px hsl(var(--accent) / 0.4) inset'
-          },
-          '50%': {
-            borderColor: 'hsl(var(--accent) / 0.7)',
-            boxShadow: '0 0 15px 0px hsl(var(--accent) / 0.5), 0 0 6px 0px hsl(var(--accent) / 0.5) inset'
-          }
+        'orbital-glow': {
+          '0%': { boxShadow: 'inset 0 0 4px 0px hsl(var(--accent) / 0.25), 3px 0px 12px 0px hsl(var(--accent) / 0.5), -3px 0px 7px 0px hsl(var(--accent) / 0.25)' },
+          '25%': { boxShadow: 'inset 0 0 4px 0px hsl(var(--accent) / 0.25), 0px 3px 12px 0px hsl(var(--accent) / 0.5), 0px -3px 7px 0px hsl(var(--accent) / 0.25)' },
+          '50%': { boxShadow: 'inset 0 0 4px 0px hsl(var(--accent) / 0.25), -3px 0px 12px 0px hsl(var(--accent) / 0.5), 3px 0px 7px 0px hsl(var(--accent) / 0.25)' },
+          '75%': { boxShadow: 'inset 0 0 4px 0px hsl(var(--accent) / 0.25), 0px -3px 12px 0px hsl(var(--accent) / 0.5), 0px 3px 7px 0px hsl(var(--accent) / 0.25)' },
+          '100%': { boxShadow: 'inset 0 0 4px 0px hsl(var(--accent) / 0.25), 3px 0px 12px 0px hsl(var(--accent) / 0.5), -3px 0px 7px 0px hsl(var(--accent) / 0.25)' }
         }
       },
       animation: {
@@ -123,7 +120,7 @@ export default {
         'subtle-glow': 'subtle-glow 3s ease-in-out infinite alternate',
         'title-pulse': 'title-pulse 2.5s ease-in-out infinite alternate',
         'star-shimmer': 'star-shimmer 10s ease-in-out infinite alternate',
-        'element-glow-pulse': 'element-glow-pulse 2.5s ease-in-out infinite alternate',
+        'orbital-glow': 'orbital-glow 3s linear infinite',
       },
     },
   },

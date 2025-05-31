@@ -5,22 +5,22 @@
 
 @layer base {
   :root {
-    --background: 220 20% 5%; /* Dark Graphite #0a0a0f -> HSL approx for #0a0a0a */
+    --background: 0 0% 2%; /* Negro Grafito #050505 */
     --foreground: 210 15% 95%; /* Light Gray / Off-White */
 
-    --card: 230 25% 12%; /* Dark Lead Grey #1e1e2f */
+    --card: 240 10% 8%; /* Gris Plomo oscuro #121217 */
     --card-foreground: 180 60% 85%; /* Lighter Turquoise for text on cards */
 
-    --popover: 230 20% 10%; /* Slightly darker than card for popovers */
+    --popover: 240 8% 6%; /* Más oscuro para popovers */
     --popover-foreground: 210 15% 95%;
 
-    --primary: 180 70% 55%; /* Mystic Turquoise #40e0d0 */
+    --primary: 180 70% 55%; /* Mystic Turquoise #40e0d0 - Sigue siendo el acento principal para interacciones */
     --primary-foreground: 220 20% 10%; /* Dark text for on-turquoise elements */
 
-    --secondary: 230 20% 15%; /* Another dark gray for secondary elements */
+    --secondary: 240 10% 10%; /* Otro gris oscuro */
     --secondary-foreground: 210 15% 90%;
 
-    --muted: 230 20% 13%; /* Darker gray for muted backgrounds */
+    --muted: 240 8% 9%; /* Gris aún más oscuro para fondos muted */
     --muted-foreground: 220 10% 65%; /* Grayish text for muted foreground */
 
     --accent: 180 70% 55%; /* Mystic Turquoise #40e0d0 */
@@ -29,8 +29,8 @@
     --destructive: 0 60% 50%; /* Adjusted red for dark theme */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 180 50% 30%; /* Darker Turquoise for subtle borders or inactive states */
-    --input: 230 20% 13%; /* Dark gray for inputs, similar to muted */
+    --border: 180 50% 30%; /* Turquesa oscuro para bordes sutiles o estados inactivos */
+    --input: 240 10% 10%; /* Gris oscuro para inputs */
     --ring: 180 70% 60%; /* Mystic Turquoise for focus rings */
 
     --radius: 0.5rem;
@@ -42,7 +42,7 @@
     --chart-5: 180 50% 30%;
 
     /* Specific for new UI style */
-    --btn-glow-color: hsl(var(--accent) / 0.4); /* Used by ui-element-glow animation */
+    --btn-glow-color: hsl(var(--accent) / 0.4); 
     --card-glow-color: hsl(var(--accent) / 0.3);
     --card-border-color: hsl(var(--accent) / 0.2);
   }
@@ -61,13 +61,14 @@
   }
 
   .ui-element-glow {
-    /* Base styles are set by the animation keyframes 0%/100% state */
-    @apply animate-element-glow-pulse;
+    @apply animate-orbital-glow; /* Nueva animación */
+    border: 1px solid hsl(var(--accent) / 0.6); /* Borde nítido y visible */
+    /* La sombra exterior es manejada por la animación orbital-glow. */
+    /* La sombra interior estática se define en la animación para asegurar que se combine correctamente */
   }
   
   .ui-card-glow {
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
-    /* Initial state, can be overridden by hover/focus */
     border-color: hsl(var(--card-border-color)); 
     box-shadow: 0 0 8px -3px var(--card-glow-color), 0 0 4px -2px var(--card-glow-color) inset;
   }
@@ -81,15 +82,15 @@
 
 .starry-sky::before {
   content: "";
-  position: fixed; /* Fixed to cover viewport */
+  position: fixed; 
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -10; /* Behind all page content */
+  z-index: -10; 
   background-image: radial-gradient(hsl(var(--accent) / 0.07) 0.5px, transparent 0.5px),
                     radial-gradient(hsl(var(--accent) / 0.07) 0.5px, transparent 0.5px);
-  background-size: 40px 40px, 70px 70px; /* Adjusted sizes */
-  background-position: 0 0, 20px 20px; /* Adjusted positions */
-  animation: star-shimmer 10s ease-in-out infinite alternate; /* Slower shimmer */
+  background-size: 40px 40px, 70px 70px; 
+  background-position: 0 0, 20px 20px; 
+  animation: star-shimmer 10s ease-in-out infinite alternate; 
 }
